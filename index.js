@@ -50,6 +50,23 @@ async function run() {
       const result = await collection.findOne(query)
       res.send(result);
     })
+
+
+    //update user
+    app.put('/user/:id', async (req, res) => {
+      const id = req.params.id;
+      const updateUser = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          email: updateUser.email,
+          password: updateUser.password
+        }
+      }
+      const result = await collection.updateOne(filter, updateDoc, options)
+      res.send(result);
+    })
   }
   finally {
     // await client.close()
